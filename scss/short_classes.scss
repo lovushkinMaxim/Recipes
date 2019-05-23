@@ -1,0 +1,45 @@
+@import "mixins/media-queries";
+
+@for $i from 1 through 10 {
+  .p#{$i}0 { padding: ($i*10px); }
+  .pt#{$i}0 { padding-top: ($i*10px); }
+  .pb#{$i}0 { padding-bottom: ($i*10px); }
+  .pl#{$i}0 { padding-left: ($i*10px); }
+  .pr#{$i}0 { padding-right: ($i*10px); }
+  .mt#{$i}0 { margin-top: ($i*10px); }
+  .mb#{$i}0 { margin-bottom: ($i*10px); }
+  .ml#{$i}0 { margin-left: ($i*10px); }
+  .mr#{$i}0 { margin-right: ($i*10px); }
+  .flex--#{$i} { flex: $i; }
+  .delay-#{$i}00{
+    animation-delay: ($i*100ms);
+    @include max-screen(1200px) {
+      animation-delay: ($i*10ms);
+    }
+  }
+}
+
+
+.flex{
+  display: flex;
+  &--column{
+    flex-direction: column;
+  }
+  &--row{
+    flex-direction: row;
+  }
+  &--none{
+    flex: none;
+  }
+}
+
+.mla{margin-left: auto;}
+.ttu{text-transform: uppercase;}
+.ttn{text-transform: none;}
+
+.tal{text-align: left;}
+.tar{text-align: right;}
+.tac{text-align: center;}
+
+.hide,.dn{display: none;}
+.relative{position: relative;z-index: 1;}
