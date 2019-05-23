@@ -13,9 +13,6 @@
   .flex--#{$i} { flex: $i; }
   .delay-#{$i}00{
     animation-delay: ($i*100ms);
-    @include max-screen(1200px) {
-      animation-delay: ($i*10ms);
-    }
   }
 }
 
