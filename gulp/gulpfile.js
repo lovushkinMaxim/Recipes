@@ -6,8 +6,6 @@ var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 
-out
-
 var scripts = {
     output:'../wp-content/themes/qt-infinity/js',
     input:[
