@@ -1,0 +1,40 @@
+@import "mixins/media-queries";
+@import "options";
+.btn{
+  padding: 0.8em 1em;
+  font-size: 18px;
+  text-transform: uppercase;
+  transition: all 300ms ease;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  color: $base-color;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #fff;
+  min-width: 230px;
+  box-shadow: 0 2px 5px 0.3px rgba(0, 0, 0, 0.3);
+  svg{
+    display: none;
+    width: 17px;
+    height: 17px;
+  }
+  @include max-screen(900px){
+    min-width: 210px;
+  }
+  &:focus,
+  &:hover{
+    color: #fff;
+    background: $base-color;
+  }
+  &:disabled{
+    opacity: .5;
+    svg{
+      display: inline-block;
+    }
+  }
+  &--block{
+    width: 100%;
+  }
+}

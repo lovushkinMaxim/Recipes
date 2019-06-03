@@ -40,7 +40,7 @@ class Element{
        return $iBlock_res->GetNext();
     }
 
-    function getList($params){
+    function getList(array $params = []){
 
         $arSelect = array_merge($this->defaultSelect,$params['select']?$params['select']:[]);
         $arSelect = array_unique($arSelect);
