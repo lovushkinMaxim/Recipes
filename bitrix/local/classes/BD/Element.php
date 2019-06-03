@@ -12,17 +12,30 @@ class Element{
     protected $iblockCode;
     protected $iBlock;
     protected $defaultSelect = [
-        "ID",
-        "ACTIVE",
-        "IBLOCK_ID",
-        "NAME",
-        "PREVIEW_TEXT",
-        "PREVIEW_PICTURE",
-        "DETAIL_TEXT",
+        "id",
+        "active",
+        "iblock_id",
+        "name",
+        "preview_text",
+        "preview_picture",
+        "detail_text",
     ];
     protected $defaultFilter = [
-        "ACTIVE" => 'Y',
+        "active" => 'Y',
     ];
+    protected $defaultExtraFields = [
+        'id'=>"ID",
+        'active'=>"ACTIVE",
+        'iblock_id'=>"IBLOCK_ID",
+        'iblock_type'=>"IBLOCK_TYPE",
+        'name'=>"NAME",
+        'preview_text'=>"PREVIEW_TEXT",
+        'preview_picture'=>"PREVIEW_PICTURE",
+        'detail_text'=>"DETAIL_TEXT",
+        'detail_text_type'=>"DETAIL_TEXT_TYPE",
+        'preview_text_type'=>"PREVIEW_TEXT_TYPE",
+    ];
+    protected $extraFields = [];
 
     function __construct() {
         if (!$this->iblockCode)return;
@@ -37,7 +50,7 @@ class Element{
                 'ACTIVE'=>'Y',
             ), true
         );
-       return $iBlock_res->GetNext();
+        return $iBlock_res->GetNext();
     }
 
     function getList(array $params = []){
@@ -48,8 +61,8 @@ class Element{
         $arFilter = array_merge($this->defaultFilter,$params['filter']?$params['filter']:[]);
 
         if ($this->iBlock){
-            $arFilter["IBLOCK_TYPE"]=$this->iBlock['IBLOCK_TYPE_ID'];
-            $arFilter["IBLOCK_ID"]=$this->iBlock['ID'];
+            $arFilter["iblock_type"]=$this->iBlock['IBLOCK_TYPE_ID'];
+            $arFilter["iblock_id"]=$this->iBlock['ID'];
         }
 
         $arNav = false;
@@ -57,16 +70,20 @@ class Element{
             $arNav['nTopCount'] = $params['limit'];
         }
 
+        $arSelect = $this->unsetExtraFields($arSelect, true);
+        $arFilter = $this->unsetExtraFields($arFilter);
+        $arOrder = $this->unsetExtraFields($params['sort']);
+
         $result = [];
-        $bdRes = \CIBlockElement::GetList($params['sort'], $arFilter,false,$arNav,$arSelect);
+        $bdRes = \CIBlockElement::GetList($arOrder, $arFilter,false,$arNav,$arSelect);
         while($ob = $bdRes->GetNextElement()) {
             $props = $ob->GetProperties();
             $arFields = $ob->GetFields();
             foreach ($props as $prop){
                 $arFields[$prop["CODE"]] = $prop['VALUE'];
-                $arFields[$prop["CODE"].'_ID'] = $prop['PROPERTY_VALUE_ID'];
+                $arFields[$prop["CODE"].'_id'] = $prop['PROPERTY_VALUE_ID'];
             }
-            $result[$arFields['ID']] = $arFields;
+            $result[$arFields['ID']] = $this->setExtraFields($arFields);
         }
         return $result;
     }
@@ -81,7 +98,7 @@ class Element{
             : false;
     }
 
-    function getSections($params){
+    public function getSections($params){
         $defaultSelect = [
             "ID",
             "IBLOCK_ID",
@@ -114,7 +131,7 @@ class Element{
         return $sections;
     }
 
-    function add($fields){
+    public function add($fields){
         $el = new \CIBlockElement;
 
         $arLoad = $fields;
@@ -125,7 +142,7 @@ class Element{
         return $PRODUCT_ID;
     }
 
-    function update($id, $fields){
+    public function update($id, $fields){
         $el = new \CIBlockElement;
 
         $arLoad = $fields;
@@ -136,7 +153,7 @@ class Element{
         return $res;
     }
 
-    function delete($id){
+    public function delete($id){
         $el = new \CIBlockElement;
 
         $arLoad["IBLOCK_ID"] = $this->iBlock['ID'];
@@ -144,6 +161,35 @@ class Element{
         $res = $el->Delete($id);
 
         return $res;
+    }
+
+    private function setExtraFields($fields){
+        $newFields = array_merge($this->defaultExtraFields,$this->extraFields);
+        $newFields = array_flip($newFields);
+        foreach ($fields as $key => $field){
+            if (isset($newFields[$key])){
+                $fields[$newFields[$key]] = $field;
+                unset($fields[$key]);
+            }
+        }
+        return $fields;
+    }
+    private function unsetExtraFields($fields,$isSelect=false){
+        $newFields = array_merge($this->defaultExtraFields,$this->extraFields);
+        foreach ($fields as $key => $field){
+            if ($isSelect){
+                if (isset($newFields[$field])){
+                    $fields[] = $newFields[$field];
+                    unset($fields[$key]);
+                }
+            }else{
+                if (isset($newFields[$key])){
+                    $fields[$newFields[$key]] = $field;
+                    unset($fields[$key]);
+                }
+            }
+        }
+        return $fields;
     }
 
 }
