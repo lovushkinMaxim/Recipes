@@ -20,14 +20,19 @@ function scrollAnimation(animatedEls) {
             var height = $(this).height();
             return scroll + wHeight > top + (height * 0.6)
         });
-
+        showEls.sort(sortElements);
         showEls.each(function (index) {
-                animationName = $(this).data('animation')?$(this).data('animation'):animationName;
-                delay = $(this).data('delay')?$(this).data('delay'):delay;
-                $(this).css('visibility', 'visible');
-                $(this).css('animation-delay', delay*index+'ms');
-                $(this).addClass('animated '+ animationName);
+            animationName = $(this).data('animation')?$(this).data('animation'):animationName;
+            delay = $(this).data('delay')?$(this).data('delay'):delay;
+            $(this).css('visibility', 'visible');
+            $(this).css('animation-delay', delay*index+'ms');
+            $(this).addClass('animated '+ animationName);
         })
     }).scroll();
 }
 
+function sortElements(a,b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 1
+}
