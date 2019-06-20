@@ -5,7 +5,7 @@ export default function (){
 function scrollAnimation(animatedEls) {
     animatedEls.css('visibility', 'hidden');
     var hideEls = animatedEls;
-    var animationName = 'bounceInUp';
+    var animationNameDefault = 'fadeIn';
     var delay = 100;
 
     $(window).scroll(function() {
@@ -20,9 +20,8 @@ function scrollAnimation(animatedEls) {
             var height = $(this).height();
             return scroll + wHeight > top + (height * 0.6)
         });
-        showEls.sort(sortElements);
-        showEls.each(function (index) {
-            animationName = $(this).data('animation')?$(this).data('animation'):animationName;
+        showEls.sort(sortElements).each(function (index) {
+            let animationName = $(this).data('animation')?$(this).data('animation'):animationNameDefault;
             delay = $(this).data('delay')?$(this).data('delay'):delay;
             $(this).css('visibility', 'visible');
             $(this).css('animation-delay', delay*index+'ms');
