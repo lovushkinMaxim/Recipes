@@ -3,23 +3,26 @@ const webpack = require('webpack');
 const path = require('path');
 
 let conf = {
-    entry: './app.js',
+    entry: {
+        app:'./app.js',
+        admin:'./admin.js'
+    },
     output: {
-        path: path.resolve(__dirname,'./../local/assets/build'),
-        filename: 'app.js',
+        path: path.resolve(__dirname,'./../web/local/assets/build'),
     },
     module:{
         rules:[
             {
-                test: /\.(png|jpg|gif)$/i,
+                test: /\.(png|jpe?g|gif)$/,
                 use: [
                     {
-                        loader: 'url-loader',
+                        loader: 'file-loader',
                         options: {
-                            limit: 8192
-                        }
-                    }
-                ]
+                            outputPath: 'images',
+                            name: '[name].[ext]',
+                        },
+                    },
+                ],
             },
             { test: /\.js$/,
                 exclude: /node_modules/,
@@ -39,14 +42,18 @@ let conf = {
                     use: ['css-loader','sass-loader']
                 })
             },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader'
+            }
         ]
     },
     plugins: [
-        // new webpack.ProvidePlugin({
-        //     $: 'jquery',
-        //     jQuery: 'jquery',
-        //     'window.jQuery': 'jquery'
-        // }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery'
+        }),
         new ExtractTextPlugin("styles.css"),
     ],
 };
