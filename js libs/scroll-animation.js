@@ -41,7 +41,7 @@ function scrollAnimation(animatedEls) {
                 $(this).css('animation-delay', delay*index+'ms');
                 $(this).addClass('animated '+ animationName);
             })
-        }, delayDefault);
+        }, 100);
 
 
     }).scroll();
