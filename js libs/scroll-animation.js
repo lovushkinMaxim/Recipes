@@ -6,7 +6,7 @@ function scrollAnimation(animatedEls) {
     animatedEls.css('visibility', 'hidden');
     var hideEls = animatedEls;
     var animationNameDefault = 'fadeIn';
-    var delay = 300;
+    var delayDefault = 300;
     var timeout = false;
 
     $(window).scroll(function() {
@@ -36,12 +36,12 @@ function scrollAnimation(animatedEls) {
 
             showEls.sort(sortElements).each(function (index) {
                 let animationName = $(this).data('animation')?$(this).data('animation'):animationNameDefault;
-                delay = $(this).data('delay')?$(this).data('delay'):delay;
+                let delay = $(this).data('delay')?$(this).data('delay'):delayDefault;
                 $(this).css('visibility', 'visible');
                 $(this).css('animation-delay', delay*index+'ms');
                 $(this).addClass('animated '+ animationName);
             })
-        }, delay);
+        }, delayDefault);
 
 
     }).scroll();
