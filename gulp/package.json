@@ -1,5 +1,5 @@
 {
-  "name": "gulp",
+  "name": "project",
   "version": "1.0.0",
   "description": "lp",
   "main": "index.js",
@@ -16,6 +16,6 @@
     "gulp-watch": "^5.0.1"
   },
   "dependencies": {
-    "normalize.css": "^8.0.0",
+    "normalize.css": "^8.0.0"
   }
 }
