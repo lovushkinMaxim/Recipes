@@ -48,9 +48,15 @@ function scrollAnimation(animatedEls) {
 }
 
 function sortElements(a,b) {
-    a = $(a).index();
-    b = $(b).index();
-    if (a > b) return 1;
-    if (a < b) return -1;
+    var $a = $(a);
+    var $b = $(b);
+    var aTop = $a.offsetTop;
+    var bTop = $b.offsetTop;
+    if (aTop > bTop) return 1;
+    if (aTop < bTop) return -1;
+    var aLeft = $a.offsetLeft;
+    var bLeft = $b.offsetLeft;
+    if (aLeft > bLeft) return 1;
+    if (aLeft < bLeft) return -1;
     return 1
 }
