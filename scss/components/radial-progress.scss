@@ -6,12 +6,11 @@
 
   width:$size;
   height:$size;
-  //display:flex;
+  display:flex;
   align-items: center;
   justify-content: center;
   border-radius:50%;
-  //position: relative;
-  //clip: rect(0px, $size, $size, ($size/2));
+  position: relative;
   border: $border-size solid $border-color;
   box-sizing: border-box;
 
