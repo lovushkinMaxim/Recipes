@@ -1,0 +1,53 @@
+.radial-progress{
+  $size:110px;
+  $border-size: 4px;
+  $border-color: #d0c9cc;
+  $border-color-progress: #f00;
+
+  width:$size;
+  height:$size;
+  //display:flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:50%;
+  //position: relative;
+  //clip: rect(0px, $size, $size, ($size/2));
+  border: $border-size solid $border-color;
+  box-sizing: border-box;
+
+  &:before,
+  &:after{
+    left:-$border-size;
+    right:-$border-size;
+    top: -$border-size;
+    bottom: -$border-size;
+    position: absolute;
+    border: $border-size solid $border-color;
+  }
+
+  &:before{
+    content:'';
+    border-color: $border-color-progress;
+    border-radius: 50%;
+    clip: rect(0px, ($size/2), $size, 0px);
+    transform: rotate(0deg);
+  }
+  &:after{
+    content:'';
+    border-radius: 50%;
+    position: absolute;
+    clip: rect(0px, ($size/2), $size, 0px);
+    transform: rotate(0deg);
+  }
+  @for $i from 1 through 100 {
+    &[data-salePercent="#{$i}"]:before{
+      transform: rotate((360deg/100*$i));
+    }
+    @if $i > 50 {
+      &[data-salePercent="#{$i}"]:after{
+        border-color: $border-color-progress;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
